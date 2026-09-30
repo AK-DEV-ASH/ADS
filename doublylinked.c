@@ -34,8 +34,14 @@ void insertPos(struct Node** head, int data, int pos) {
     if (pos == 0) { insertFirst(head, data); return; }
     struct Node* n = createNode(data);
     struct Node* t = *head;
-    for (int i = 0; t && i < pos-1; i++) t = t->next;
+    
+    // Navigate to position pos-1
+    for (int i = 0; t && i < pos - 1; i++) t = t->next;
+    
+    // If t is NULL, position is out of range
     if (!t) { printf("Invalid position\n"); free(n); return; }
+    
+    // Insert n between t and t->next
     n->next = t->next;
     n->prev = t;
     if (t->next) t->next->prev = n;
@@ -62,9 +68,16 @@ void deleteEnd(struct Node** head) {
 void deletePos(struct Node** head, int pos) {
     if (!*head) { printf("List empty\n"); return; }
     if (pos == 0) { deleteFirst(head); return; }
+    
     struct Node* t = *head;
+    
+    // Navigate to position pos
     for (int i = 0; t && i < pos; i++) t = t->next;
+    
+    // If t is NULL, position is out of range
     if (!t) { printf("Invalid position\n"); return; }
+    
+    // Update links to bypass t
     if (t->prev) t->prev->next = t->next;
     if (t->next) t->next->prev = t->prev;
     free(t);
